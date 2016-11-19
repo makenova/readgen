@@ -14,15 +14,21 @@ function readFilePromise(filepath) {
   })
 }
 
-test(t => {
+test('generate this project readme stub', t => {
   t.plan(1)
 
   const readmeObj = { name, description }
 
   return Promise.all([
-    readFilePromise('./expecteds.md'),
+    readFilePromise('./expected.md'),
     readgen(readmeObj)
   ])
   .then(values => t.is(values[0], values[1]))
   .catch(err => t.fail(err))
+})
+
+test('should throw when name is missing', t => {
+  const readmeObj = {}
+
+  t.throws(readgen(readmeObj))
 })
