@@ -1,0 +1,34 @@
+{
+  "name": "readgen",
+  "version": "0.0.0",
+  "description": "Generate a README.md stub",
+  "main": "index.js",
+  "bin": {
+    "rgen": "./cli.js",
+    "readgen": "./cli.js"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "keywords": [
+    "readme",
+    "generator"
+  ],
+  "author": "makenova",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/makenova/readgen"
+  },
+  "bugs": "https://github.com/makenova/readgen/issues",
+  "engines": {
+    "node": ">=4.1.1"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "execa": "^0.5.0"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
