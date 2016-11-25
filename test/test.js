@@ -3,6 +3,7 @@ import test from 'ava'
 import readgen from '../'
 
 const name = 'readgen'
+const author = 'makenova'
 const description = 'Generate a README.md stub'
 
 function readFilePromise(filepath) {
@@ -17,7 +18,7 @@ function readFilePromise(filepath) {
 test('generate this project readme stub', t => {
   t.plan(1)
 
-  const readmeObj = { name, description }
+  const readmeObj = { name, author, description }
 
   return Promise.all([
     readFilePromise('./expected.md'),
@@ -28,7 +29,13 @@ test('generate this project readme stub', t => {
 })
 
 test('should throw when name is missing', t => {
-  const readmeObj = {}
+  const readmeObj = { description }
+
+  t.throws(readgen(readmeObj))
+})
+
+test('should throw when author is missing', t => {
+  const readmeObj = { name, description }
 
   t.throws(readgen(readmeObj))
 })

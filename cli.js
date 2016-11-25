@@ -10,6 +10,7 @@ let readgen = require('./')
 let args = minimist(process.argv.slice(2))
 let readmeObj = {
   name: args.name,
+  author: args.author,
   description: args.description
 }
 

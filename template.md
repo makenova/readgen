@@ -10,7 +10,7 @@
 
 ## Bugs
 
-Please report any bugs to: https://github.com/makenova/{{ repo_name }}/issues
+Please report any bugs to: https://github.com/{{ author }}/{{ repo_name }}/issues
 
 ## License
 
