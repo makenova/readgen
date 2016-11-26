@@ -9,6 +9,7 @@ module.exports = (readmeObj) => {
   return new Promise((resolve, reject) => {
     if (!readmeObj.name) return reject(new Error('name is required'))
     if (!readmeObj.author) return reject(new Error('author is required'))
+    if (!readmeObj.description) readmeObj.description = ''
 
     let templatePath = path.join(__dirname, 'template.md') || readmeObj.templatePath
 

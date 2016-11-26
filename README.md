@@ -13,7 +13,7 @@ npm install -g readgen
 ## Use
 
 ```sh
-readgen --name readgen --description Generate a README.md stub
+readgen --name readgen --author makenova --description "Generate a README.md stub"
 ```
 
 ## Bugs
