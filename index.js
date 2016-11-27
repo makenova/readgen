@@ -15,37 +15,46 @@ function readFile(filepath) {
   })
 }
 
+function buildCofigObject(configFileProps, readmeObj) {
+  return new Promise((resolve, reject) => {
+    let config = configFileProps ? configFileProps : readmeObj
+
+    if (!config.name) return reject(new Error('name is required'))
+    if (!config.author) return reject(new Error('author is required'))
+    if (!config.description) config.description = ''
+
+    let templatePath = path.join(__dirname, 'template.md') || config.templatePath
+
+    let repo_name = config.repo_name || config.name.replace(' ', '_')
+
+    config.repo_name = repo_name
+    resolve(config)
+  })
+}
+
 module.exports = (readmeObj) => {
   return new Promise((resolve, reject) => {
-    const configFilePath = path.join(os.homedir(), '.readgen')
-    readFile(configFilePath)
-    .then(file => Object.assign({}, JSON.parse(file.trim()), readmeObj) )
-    .catch(err => {
-      if (err.code === 'ENOENT') return
-      reject(err)
-    })
+    readFile(path.join(os.homedir(), '.readgen'))
+    .then(file => Object.assign({}, JSON.parse(file.trim()), readmeObj))
+    .catch(err => (err.code === 'ENOENT') ? null : reject(err))
     .then((configFileProps) => {
-      if(configFileProps) readmeObj = configFileProps
+      const templatePath = path.join(__dirname, 'template.md') || readmeObj.templatePath
 
-      if (!readmeObj.name) return reject(new Error('name is required'))
-      if (!readmeObj.author) return reject(new Error('author is required'))
-      if (!readmeObj.description) readmeObj.description = ''
+      return Promise.all([
+        buildCofigObject(configFileProps, readmeObj),
+        readFile(templatePath)
+      ])
+    })
+    .then(results => {
+      let config = results[0]
+      let template = results[1]
 
-      let templatePath = path.join(__dirname, 'template.md') || readmeObj.templatePath
-
-      let repo_name = readmeObj.repo_name || readmeObj.name.replace(' ', '_')
-
-      readmeObj.repo_name = repo_name
-
-      fs.readFile(templatePath, 'utf8', (err, data) => {
-        if (err) return reject(err)
-        Object.keys(readmeObj).forEach(key => {
-          if(valid_keys.indexOf(key) >= 0)
-            data = data.replace(`{{ ${key} }}`, readmeObj[key])
-        })
-
-        resolve(data)
+      Object.keys(config).forEach(key => {
+        if(valid_keys.indexOf(key) >= 0)
+          template = template.replace(`{{ ${key} }}`, config[key])
       })
+
+      resolve(template)
     })
     .catch(err => reject(err))
   })

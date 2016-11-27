@@ -13,7 +13,7 @@ let readmeObj = {
   description: args.description
 }
 
-// doing this so that if it is undefined the config file can override the value
+// doing this so the config file can override the value if author is undefined
 if (args.author)
   readmeObj.author= args.author
 
