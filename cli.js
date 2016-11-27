@@ -10,9 +10,12 @@ let readgen = require('./')
 let args = minimist(process.argv.slice(2))
 let readmeObj = {
   name: args.name,
-  author: args.author,
   description: args.description
 }
+
+// doing this so that if it is undefined the config file can override the value
+if (args.author)
+  readmeObj.author= args.author
 
 function reportError(err, message) {
   console.error(message || err.message)
