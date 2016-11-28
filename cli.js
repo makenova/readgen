@@ -16,6 +16,8 @@ let readmeObj = {
 // doing this so the config file can override the value if author is undefined
 if (args.author)
   readmeObj.author= args.author
+if (args.repo_name)
+  readmeObj.repo_name= args.repo_name
 
 function reportError(err, message) {
   console.error(message || err.message)
