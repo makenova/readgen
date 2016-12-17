@@ -21,7 +21,7 @@ test('generate this project readme stub', t => {
   const readmeObj = { name, author, description }
 
   return Promise.all([
-    readFilePromise('./expected.md'),
+    readFilePromise('./test/expected.md'),
     readgen(readmeObj)
   ])
   .then(values => t.is(values[0], values[1]))
